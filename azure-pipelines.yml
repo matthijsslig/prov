@@ -1,0 +1,26 @@
+name: pipeline
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: dependencies 
+    displayName: 'Install Dependencies'
+    jobs:
+    - job: install
+      steps:
+      - script: |
+        sudo apt-get install terraform
+        sudo apt-get install azure-cli
+
+  - stage: terraform steps
+    displayName: 'Do Terraform Steps'
+    jobs:
+    - job: steps
+      steps:
+      - script: |
+        terraform init
+        terraform plan
+        terraform apply
