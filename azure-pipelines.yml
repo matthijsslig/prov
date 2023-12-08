@@ -12,7 +12,6 @@ stages:
       steps:
       - script: |
         sudo apt-get install terraform
-        sudo apt-get install azure-cli
 
   - stage: terraform steps
     displayName: 'Do Terraform Steps'
