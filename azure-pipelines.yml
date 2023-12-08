@@ -2,8 +2,7 @@ name: pipeline
 trigger:
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: Agent007
 
 stages:
   - stage: dependencies 
