@@ -13,7 +13,7 @@ stages:
       - bash: |
         sudo apt-get install terraform
 
-  - stage: terraform steps
+  - stage: terraform
     displayName: 'Do Terraform Steps'
     jobs:
     - job: steps
