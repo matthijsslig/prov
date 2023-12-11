@@ -15,7 +15,7 @@ stages:
             terraformVersion: 'latest'
 
         - task: TerraformTaskV3@3
-          displayname: init
+          displayName: init
           inputs:
             provider: 'azurerm'
             command: 'init'
@@ -39,19 +39,19 @@ stages:
             terraformVersion: 'latest'
 
         - task: TerraformTaskV3@3
-          displayname: init
+          displayName: init
           inputs:
             provider: 'azurerm'
             command: 'init'
 
         - task: TerraformTaskV3@3
-          displayname: plan
+          displayName: plan
           inputs:
             provider: 'azurerm'
             command: 'plan'
         
         - task: TerraformTaskV3@3
-          displayname: apply
+          displayName: apply
           inputs:
             provider: 'azurerm'
             command: 'apply'
