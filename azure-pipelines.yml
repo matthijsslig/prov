@@ -4,9 +4,9 @@ trigger:
 pool: Agent007
 
 stages:
-  - stage: dependencies 
+  - stage: tfvalidate 
     jobs:
-      - job: install
+      - job: validate
         steps:
 
           - task: TerraformInstaller@0
@@ -21,7 +21,7 @@ stages:
               command: 'init'
     
           - task: TerraformTaskV3@3
-            displayName: tfvalidate
+            displayName: validate
             inputs:
               provider: 'azurerm'
               command: 'validate'
