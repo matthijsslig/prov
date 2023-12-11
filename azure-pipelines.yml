@@ -10,7 +10,7 @@ stages:
     jobs:
     - job: install
       steps:
-      - script: |
+      - bash: |
         sudo apt-get install terraform
 
   - stage: terraform steps
@@ -18,7 +18,7 @@ stages:
     jobs:
     - job: steps
       steps:
-      - script: |
+      - bash: |
         terraform init
         terraform plan
         terraform apply
