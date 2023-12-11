@@ -6,52 +6,52 @@ pool: Agent007
 stages:
   - stage: dependencies 
     jobs:
-    - job: install
-      steps:
+      - job: install
+        steps:
 
-        - task: TerraformInstaller@0
-          displayName: tfinstall
-          inputs:
-            terraformVersion: 'latest'
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
 
-        - task: TerraformTaskV3@3
-          displayName: init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
     
-        - task: TerraformTaskV3@3
-          displayName: validate
-          inputs:
-            provider: 'azurerm'
-            command: 'validate'
+          - task: TerraformTaskV3@3
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
 
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
     dependsOn: tfvalidate
     jobs:
-    - job: apply
-      steps:
+      - job: apply
+        steps:
 
-        - task: TerraformInstaller@0
-          displayName: tfinstall
-          inputs:
-            terraformVersion: 'latest'
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
 
-        - task: TerraformTaskV3@3
-          displayName: init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
 
-        - task: TerraformTaskV3@3
-          displayName: plan
-          inputs:
-            provider: 'azurerm'
-            command: 'plan'
+          - task: TerraformTaskV3@3
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
         
-        - task: TerraformTaskV3@3
-          displayName: apply
-          inputs:
-            provider: 'azurerm'
-            command: 'apply'
+          - task: TerraformTaskV3@3
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
