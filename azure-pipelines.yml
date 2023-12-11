@@ -21,7 +21,7 @@ stages:
               command: 'init'
     
           - task: TerraformTaskV3@3
-            displayName: validate
+            displayName: tfvalidate
             inputs:
               provider: 'azurerm'
               command: 'validate'
