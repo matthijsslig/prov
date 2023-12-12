@@ -13,23 +13,12 @@ stages:
             displayName: tfinstall
             inputs:
               terraformVersion: 'latest'
-
-          - task: TerraformTaskV3@3
-            displayName: init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              backendServiceArm: '$(backendServiceArm)'
-              backendAzureRmResourceGroupName: '$(backendAzureRmResourceGroupName)'
-              backendAzureRmStorageAccountName: '$(backendAzureRmStorageAccountName)'
-              backendAzureRmContainerName: '$(backendAzureRmContainerName)'
-              backendAzureRmKey: '$(backendAzureRmKey)'
-    
-          - task: TerraformTaskV3@3
-            displayName: validate
-            inputs:
-              provider: 'azurerm'
-              command: 'validate'
+          - pwsh: terraform fmt -check
+            displayName: Terraform Format Check
+          - pwsh: terraform init -backend=false
+            displayName: Terraform Init
+          - pwsh: terraform validate
+            displayName: Terraform Validate
 
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
