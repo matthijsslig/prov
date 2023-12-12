@@ -1,5 +1,5 @@
 trigger:
-- main
+- new
 
 pool: Agent007
 
