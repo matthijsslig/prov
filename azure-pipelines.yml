@@ -60,3 +60,5 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'apply'
+
+#new
