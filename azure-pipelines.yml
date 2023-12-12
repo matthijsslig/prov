@@ -19,6 +19,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              commandOptions: -backend=false
     
           - task: TerraformTaskV3@3
             displayName: validate
