@@ -19,12 +19,12 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: '$(backendServiceArm)'
-              backendAzureRmResourceGroupName: '$(backendAzureRmResourceGroupName)'
-              backendAzureRmStorageAccountName: '$(backendAzureRmStorageAccountName)'
-              backendAzureRmContainerName: '$(backendAzureRmContainerName)'
-              backendAzureRmKey: '$(backendAzureRmKey)'
-    
+              backendServiceArm: 'your-backend-service-connection'
+              backendAzureRmResourceGroupName: 'your-rg-name'
+              backendAzureRmStorageAccountName: 'your-stg-name'
+              backendAzureRmContainerName: 'your-container-name'
+              backendAzureRmKey: 'state.tfstate'
+              
           - task: TerraformTaskV3@3
             displayName: validate
             inputs:
