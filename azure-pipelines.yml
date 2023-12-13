@@ -3,6 +3,11 @@ trigger:
 
 pool: Agent007
 
+variables:
+- tenantId: f82b3c62-b635-402b-afa2-a1a807bbfd42
+  servicePrincipalId: 52cc5536-a316-466c-8bf4-3868efbe0811
+  servicePrincipalKey: ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-
+
 stages:
   - stage: tfvalidate 
     jobs:
@@ -14,6 +19,17 @@ stages:
             inputs:
               terraformVersion: 'latest'
 
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core SDK'
+            inputs:
+              packageType: 'sdk'
+              version: '3.1.x'
+              installationPath: $(Agent.ToolsDirectory)/dotnet
+
+          - script: | 
+              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+              az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
+              
           - task: TerraformTaskV3@3
             displayName: init
             inputs:
