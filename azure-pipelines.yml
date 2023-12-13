@@ -39,10 +39,10 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'your-backend-service-connection'
+              backendServiceArm: 'matthijssliggers0898'
               backendAzureRmResourceGroupName: 'matthijs_sliggers-rg'
-              backendAzureRmStorageAccountName: 'your-stg-name'
-              backendAzureRmContainerName: 'your-container-name'
+              backendAzureRmStorageAccountName: 'n/a'
+              backendAzureRmContainerName: 'n/a'
               backendAzureRmKey: 'state.tfstate'
               
           - task: TerraformTaskV3@3
