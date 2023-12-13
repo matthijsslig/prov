@@ -4,9 +4,13 @@ trigger:
 pool: Agent007
 
 variables:
-- tenantId: f82b3c62-b635-402b-afa2-a1a807bbfd42
-  servicePrincipalId: 52cc5536-a316-466c-8bf4-3868efbe0811
-  servicePrincipalKey: ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-
+- name: tenantId
+  value: f82b3c62-b635-402b-afa2-a1a807bbfd42
+- name: servicePrincipalId
+  value: 52cc5536-a316-466c-8bf4-3868efbe0811
+- name: servicePrincipalKey
+  value: ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-
+
 
 stages:
   - stage: tfvalidate 
@@ -29,7 +33,7 @@ stages:
           - script: | 
               curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
               az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
-              
+
           - task: TerraformTaskV3@3
             displayName: init
             inputs:
