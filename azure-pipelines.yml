@@ -20,7 +20,7 @@ stages:
               provider: 'azurerm'
               command: 'init'
               backendServiceArm: 'your-backend-service-connection'
-              backendAzureRmResourceGroupName: 'your-rg-name'
+              backendAzureRmResourceGroupName: 'matthijs_sliggers-rg'
               backendAzureRmStorageAccountName: 'your-stg-name'
               backendAzureRmContainerName: 'your-container-name'
               backendAzureRmKey: 'state.tfstate'
