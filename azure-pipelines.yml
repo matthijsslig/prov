@@ -39,11 +39,6 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'matthijsconnection'
-              backendAzureRmResourceGroupName: 'matthijs_sliggers-rg'
-              backendAzureRmStorageAccountName: 'backendmatthijs'
-              backendAzureRmContainerName: 'backendcontainer'
-              backendAzureRmKey: 'state.tfstate'
               
           - task: TerraformTaskV3@3
             displayName: validate
