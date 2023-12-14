@@ -33,7 +33,7 @@ stages:
               curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
               az login 
 
-              terraform init -backend-config=backend-config.tfvars
+              terraform init
 
               terraform validate
 
