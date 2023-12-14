@@ -32,8 +32,8 @@ stages:
 
           - script: | 
               curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-              az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
-
+              az login 
+              
           - task: TerraformTaskV3@3
             displayName: init
             inputs:
