@@ -18,24 +18,33 @@ stages:
       - job: validate
         steps:
 
-          - script: |
-              curl -O https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M .current_version)/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M .current_version)_linux_amd64.zip
-              unzip terraform_*.zip
-              sudo mv terraform /usr/local/bin/
-              terraform --version
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
 
-              wget https://dot.net/v1/dotnet-install.sh
-              chmod +x dotnet-install.sh
-              ./dotnet-install.sh --version 3.1.x
-              export PATH="$HOME/.dotnet":$PATH
-              dotnet --version
+          - task: UseDotNet@2
+            displayName: 'Use .NET Core SDK'
+            inputs:
+              packageType: 'sdk'
+              version: '3.1.x'
+              installationPath: $(Agent.ToolsDirectory)/dotnet
 
+          - script: | 
               curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-              az login 
+              az login
 
-              terraform init
-
-              terraform validate
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              
+          - task: TerraformTaskV3@3
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
 
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
