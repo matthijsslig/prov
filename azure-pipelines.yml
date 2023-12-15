@@ -5,7 +5,7 @@ pool:
   name: Agent007
 
 variables:
-  azureSubscriptionEndpoint: 'matthijsconnection'
+  # Remove the azureSubscriptionEndpoint variable
   
 stages:
 - stage: tfvalidate 
@@ -15,7 +15,6 @@ stages:
 
     - script: | 
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        az login
 
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK'
@@ -30,8 +29,8 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az account set --subscription $(azureSubscriptionEndpoint)
-      
+        az login --identity
+
     - script: |
         terraform init -backend=false
         
@@ -51,7 +50,7 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az account set --subscription $(azureSubscriptionEndpoint)
+        az login --identity
 
     - script: |
         terraform init -backend=false
