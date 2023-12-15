@@ -5,7 +5,7 @@ pool:
   name: Agent007
 
 variables:
-  subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
+  subscriptionId: '52cc5536-a316-466c-8bf4-3868efbe0811'
   
 stages:
 - stage: tfvalidate 
