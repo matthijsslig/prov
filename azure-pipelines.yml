@@ -26,6 +26,7 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         echo "Current Directory: $(System.DefaultWorkingDirectory)"
+        ls -R $(System.DefaultWorkingDirectory)
         terraform init -input=false -lock=false
         
     - script: |
