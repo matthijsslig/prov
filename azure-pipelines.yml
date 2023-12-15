@@ -25,9 +25,8 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        echo "Current Directory: $(System.DefaultWorkingDirectory)"
-        ls -R $(System.DefaultWorkingDirectory)
-        terraform init -input=false -lock=false
+        cd /home/agent/_work/1/s
+        terraform init
         
     - script: |
         terraform validate
@@ -48,11 +47,13 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(Build.SourcesDirectory)
+        cd /home/agent/_work/1/s
         terraform init
 
     - script: |
+        cd /home/agent/_work/1/s
         terraform plan
 
     - script: |
+        cd /home/agent/_work/1/s
         terraform apply
