@@ -3,6 +3,9 @@ trigger:
 
 pool:
   name: Agent007
+
+variables:
+  subscriptionIdOrName: '41e50375-b926-4bc4-9045-348f359cf721'
   
 stages:
 - stage: tfvalidate 
@@ -26,7 +29,7 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity --allow-no-subscriptions
+        az login --identity --subscription $(subscriptionIdOrName)
 
     - script: |
         terraform init -backend=false
@@ -47,7 +50,7 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity
+        az login --identity --subscription $(subscriptionIdOrName)
 
     - script: |
         terraform init -backend=false
