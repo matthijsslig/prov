@@ -1,78 +1,63 @@
 trigger:
 - new
 
-pool: Agent007
+pool:
+  name: Agent007
 
 variables:
-- name: tenantId
-  value: f82b3c62-b635-402b-afa2-a1a807bbfd42
-- name: servicePrincipalId
-  value: 52cc5536-a316-466c-8bf4-3868efbe0811
-- name: servicePrincipalKey
-  value: ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-
-
+  azureSubscriptionEndpoint: 'YourAzureServiceConnectionName'
+  
 stages:
-  - stage: tfvalidate 
-    jobs:
-      - job: validate
-        steps:
+- stage: tfvalidate 
+  jobs:
+  - job: validate
+    steps:
 
-          - script: | 
-              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-              az login
-          
-          - task: TerraformInstaller@0
-            displayName: tfinstall
-            inputs:
-              terraformVersion: 'latest'
+    - script: | 
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        az login
 
-          - task: UseDotNet@2
-            displayName: 'Use .NET Core SDK'
-            inputs:
-              packageType: 'sdk'
-              version: '3.1.x'
-              installationPath: $(Agent.ToolsDirectory)/dotnet
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
 
-          - task: TerraformTaskV3@3
-            displayName: init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              
-          - task: TerraformTaskV3@3
-            displayName: validate
-            inputs:
-              provider: 'azurerm'
-              command: 'validate'
+    - task: TerraformInstaller@0
+      displayName: tfinstall
+      inputs:
+        terraformVersion: 'latest'
 
-  - stage: tfdeploy
-    condition: succeeded('tfvalidate')
-    dependsOn: tfvalidate
-    jobs:
-      - job: apply
-        steps:
-
-          - task: TerraformInstaller@0
-            displayName: tfinstall
-            inputs:
-              terraformVersion: 'latest'
-
-          - task: TerraformTaskV3@3
-            displayName: init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-
-          - task: TerraformTaskV3@3
-            displayName: plan
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
+    - script: |
+        az account set --subscription $(azureSubscriptionEndpoint)
+      
+    - script: |
+        terraform init -backend=false
         
-          - task: TerraformTaskV3@3
-            displayName: apply
-            inputs:
-              provider: 'azurerm'
-              command: 'apply'
+    - script: |
+        terraform validate
 
-#new
+- stage: tfdeploy
+  condition: succeeded('tfvalidate')
+  dependsOn: tfvalidate
+  jobs:
+  - job: apply
+    steps:
+
+    - task: TerraformInstaller@0
+      displayName: tfinstall
+      inputs:
+        terraformVersion: 'latest'
+
+    - script: |
+        az account set --subscription $(azureSubscriptionEndpoint)
+
+    - script: |
+        terraform init -backend=false
+
+    - script: |
+        terraform plan -out=tfplan
+
+    - script: |
+        terraform apply tfplan
