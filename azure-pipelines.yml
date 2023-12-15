@@ -26,7 +26,7 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity
+        az login --identity --allow-no-subscriptions
 
     - script: |
         terraform init -backend=false
