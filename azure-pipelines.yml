@@ -43,7 +43,8 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity --subscription $(subscriptionId)
+        az login --identity --allow-no-subscriptions
+        az account set --subscription $(subscriptionId)
         az account show
         terraform init
 
