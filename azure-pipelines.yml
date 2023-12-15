@@ -29,8 +29,8 @@ stages:
         terraformVersion: 'latest'
     
     - script: | 
-      az login --identity
-      az account show
+        az login --identity
+        az account show
 
     - script: |
         az login --identity --subscription $(subscriptionIdOrName)
