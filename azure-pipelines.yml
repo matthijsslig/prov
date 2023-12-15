@@ -29,7 +29,7 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity
+        az login --identity --allow-no-subscriptions
         az account set --subscription <subscription-id>
         az account show
         terraform init -backend=false
