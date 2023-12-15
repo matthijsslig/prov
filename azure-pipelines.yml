@@ -4,8 +4,8 @@ trigger:
 pool:
   name: Agent007
 
-#variables:
-#  subscriptionId: 'f82b3c62-b635-402b-afa2-a1a807bbfd42'
+variables:
+  subscriptionId: 'f82b3c62-b635-402b-afa2-a1a807bbfd42'
   
 stages:
 - stage: tfvalidate 
@@ -30,8 +30,7 @@ stages:
 
     - script: |
         az login --identity
-
-    - script: |
+        az account set --subscription <subscription-id>
         az account show
         terraform init -backend=false
         
@@ -52,8 +51,7 @@ stages:
 
     - script: |
         az login --identity
-
-    - script: |
+        az account set --subscription <subscription-id>
         az account show
         terraform init -backend=false
 
