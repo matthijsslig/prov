@@ -5,7 +5,7 @@ pool:
   name: Agent007
 
 variables:
-  subscriptionIdOrName: '41e50375-b926-4bc4-9045-348f359cf721'
+  subscriptionIdOrName: 'f82b3c62-b635-402b-afa2-a1a807bbfd42'
   
 stages:
 - stage: tfvalidate 
@@ -27,10 +27,6 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
-    
-    - script: | 
-        az login --identity
-        az account show
 
     - script: |
         az login --identity --subscription $(subscriptionIdOrName)
