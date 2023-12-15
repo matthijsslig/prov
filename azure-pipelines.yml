@@ -47,6 +47,7 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
+        cd $(Build.SourcesDirectory)
         terraform init
 
     - script: |
