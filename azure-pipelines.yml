@@ -5,7 +5,7 @@ pool:
   name: Agent007
 
 variables:
-  subscriptionId: 'f82b3c62-b635-402b-afa2-a1a807bbfd42'
+  subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
   
 stages:
 - stage: tfvalidate 
@@ -29,8 +29,8 @@ stages:
         terraformVersion: 'latest'
 
     - script: |
-        az login --identity --allow-no-subscriptions
-        az account set --subscription <subscription-id>
+        az login --identity --subscription $(subscriptionId)
+# az account set --subscription $(subscriptionId)
         az account show
         terraform init -backend=false
         
