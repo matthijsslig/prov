@@ -3,9 +3,6 @@ trigger:
 
 pool:
   name: Agent007
-
-variables:
-  # Remove the azureSubscriptionEndpoint variable
   
 stages:
 - stage: tfvalidate 
