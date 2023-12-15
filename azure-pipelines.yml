@@ -30,7 +30,6 @@ stages:
 
     - script: |
         az login --identity --subscription $(subscriptionId)
-# az account set --subscription $(subscriptionId)
         az account show
         terraform init -backend=false
         
