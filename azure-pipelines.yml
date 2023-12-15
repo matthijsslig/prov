@@ -31,7 +31,7 @@ stages:
     - script: |
         az login --identity --subscription $(subscriptionId)
         az account show
-        terraform init -backend=false
+        terraform init
         
     - script: |
         terraform validate
@@ -51,7 +51,7 @@ stages:
     - script: |
         az login --identity --subscription $(subscriptionId)
         az account show
-        terraform init -backend=false
+        terraform init
 
     - script: |
         terraform plan -out=tfplan
