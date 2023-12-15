@@ -54,7 +54,7 @@ stages:
         terraform init
 
     - script: |
-        terraform plan -out=tfplan
+        terraform plan
 
     - script: |
-        terraform apply tfplan
+        terraform apply
