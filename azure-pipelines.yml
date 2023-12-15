@@ -25,8 +25,8 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(Build.SourcesDirectory)
-        terraform init -chdir=$(Build.SourcesDirectory)
+        echo "Current Directory: $(System.DefaultWorkingDirectory)"
+        terraform init -input=false -lock=false
         
     - script: |
         terraform validate
