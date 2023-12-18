@@ -47,7 +47,7 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd /home/agent/_work/1/s
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
         terraform init
 
     - script: |
