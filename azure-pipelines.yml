@@ -74,3 +74,5 @@ stages:
         provider: 'azurerm'
         command: apply
         workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
+
+#new
