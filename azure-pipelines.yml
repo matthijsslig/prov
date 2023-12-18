@@ -51,9 +51,9 @@ stages:
         terraform init
 
     - script: |
-        cd /home/agent/_work/1/s
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
         terraform plan
 
     - script: |
-        cd /home/agent/_work/1/s
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
         terraform apply
