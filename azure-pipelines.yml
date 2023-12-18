@@ -48,12 +48,12 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform init
+        terraform -chdir=$(System.DefaultWorkingDirectory) init
 
     - script: |
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform plan
+        terraform -chdir=$(System.DefaultWorkingDirectory) plan
 
     - script: |
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform apply
+        terraform -chdir=$(System.DefaultWorkingDirectory) apply
