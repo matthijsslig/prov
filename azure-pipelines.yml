@@ -53,9 +53,16 @@ stages:
         cd $(System.DefaultWorkingDirectory) && ls
         terraform -chdir=$(System.DefaultWorkingDirectory) init
 
-    - script: |
-        cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) plan
+#    - script: |
+#        cd $(System.DefaultWorkingDirectory) && ls
+#        terraform -chdir=$(System.DefaultWorkingDirectory) plan
+    
+    - task: TerraformTaskV2@2
+      displayName: Terraform plan
+      inputs:
+        provider: 'azurerm'
+        command: plan
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
 
 #    - script: |
 #        cd $(System.DefaultWorkingDirectory) && ls
