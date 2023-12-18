@@ -6,6 +6,7 @@ pool:
 
 variables:
   subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
+  terraformPath: ' /home/agent/_work/1/s'
   
 stages:
 - stage: tfvalidate 
