@@ -47,13 +47,13 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name) && ls
         terraform init
 
     - script: |
-        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name) && ls
         terraform plan
 
     - script: |
-        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name) && ls
         terraform apply
