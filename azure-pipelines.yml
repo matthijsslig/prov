@@ -20,6 +20,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -42,6 +43,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
 
     - script: |
         az login --identity --allow-no-subscriptions
