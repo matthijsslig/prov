@@ -57,7 +57,7 @@ stages:
       displayName: Terraform plan
       inputs:
         provider: 'azurerm'
-        command: 'plan'
+        command: plan
         workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
 
     - task: TerraformTaskV4@4
