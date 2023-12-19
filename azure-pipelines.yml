@@ -57,22 +57,19 @@ stages:
 #        cd $(System.DefaultWorkingDirectory) && ls
 #        terraform -chdir=$(System.DefaultWorkingDirectory) plan
     
-    - task: TerraformTaskV2@2
+    - task: TerraformTaskV4@4
       displayName: Terraform plan
       inputs:
         provider: 'azurerm'
-        command: plan
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
+        command: 'plan'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/' 
 
 #    - script: |
 #        cd $(System.DefaultWorkingDirectory) && ls
 #        terraform -chdir=$(System.DefaultWorkingDirectory) apply
 
-    - task: TerraformTaskV2@2
+    - task: TerraformTaskV4@4
       displayName: Terraform apply
       inputs:
         provider: 'azurerm'
         command: apply
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
-
-#new
