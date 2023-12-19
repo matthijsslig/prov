@@ -28,7 +28,7 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory)/$(terraformPath)/ init
+        terraform init
         
     - script: |
         terraform validate
