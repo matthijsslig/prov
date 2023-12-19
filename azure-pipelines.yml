@@ -58,7 +58,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: /home/agent/_work/_temp/6d275bca-56e7-4c09-a613-2b53934737a1.sh 
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/' 
 
     - task: TerraformTaskV4@4
       displayName: Terraform apply
