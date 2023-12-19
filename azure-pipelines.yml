@@ -6,7 +6,7 @@ pool:
 
 variables:
   subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
-  terraformPath: ' /home/agent/_work/1/s'
+  terraformPath: '/home/agent/_work/1/s'
   
 stages:
 - stage: tfvalidate 
@@ -21,7 +21,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -44,7 +44,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -58,11 +58,11 @@ stages:
       inputs:
         provider: 'azurerm'
         command: plan
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
 
     - task: TerraformTaskV4@4
       displayName: Terraform apply
       inputs:
         provider: 'azurerm'
         command: apply
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
