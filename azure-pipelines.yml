@@ -21,7 +21,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -44,7 +44,7 @@ stages:
       displayName: tfinstall
       inputs:
         terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -58,9 +58,11 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
 
     - task: TerraformTaskV4@4
       displayName: Terraform apply
       inputs:
         provider: 'azurerm'
         command: apply
+        workingDirectory: '$(System.DefaultWorkingDirectory)/home/agent/_work/1/s'
