@@ -62,7 +62,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/' 
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/' 
 
 #    - script: |
 #        cd $(System.DefaultWorkingDirectory) && ls
