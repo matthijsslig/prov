@@ -58,7 +58,6 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: /usr/bin/bash --noprofile --norc /home/agent/_work/_temp/a5dfefc7-7afa-4085-9865-7f695bf6dbbe.sh 
 
     - task: TerraformTaskV4@4
       displayName: Terraform apply
