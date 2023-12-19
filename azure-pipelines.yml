@@ -28,7 +28,7 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) init
+        terraform -chdir=$(System.DefaultWorkingDirectory)/$(terraformPath)/ init
         
     - script: |
         terraform validate
@@ -51,11 +51,7 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) init
-
-#    - script: |
-#        cd $(System.DefaultWorkingDirectory) && ls
-#        terraform -chdir=$(System.DefaultWorkingDirectory) plan
+        terraform -chdir=$(System.DefaultWorkingDirectory)/$(terraformPath)/ init
     
     - task: TerraformTaskV4@4
       displayName: Terraform plan
@@ -63,10 +59,6 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/' 
-
-#    - script: |
-#        cd $(System.DefaultWorkingDirectory) && ls
-#        terraform -chdir=$(System.DefaultWorkingDirectory) apply
 
     - task: TerraformTaskV4@4
       displayName: Terraform apply
