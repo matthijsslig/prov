@@ -14,7 +14,8 @@ stages:
   jobs:
   - job: validate
     steps:
-
+    - checkout: self
+      path: string
     - script: | 
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
@@ -29,7 +30,7 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
-        terraform -chdir=$(System.DefaultWorkingDirectory) init
+        terraform init
         
     - script: |
         terraform validate
@@ -40,7 +41,8 @@ stages:
   jobs:
   - job: apply
     steps:
-
+    - checkout: self
+    - path: string
     - task: TerraformInstaller@0
       displayName: tfinstall
       inputs:
@@ -52,12 +54,12 @@ stages:
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) init
+        terraform init
 
     - script: |
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) plan
+        terraform plan
 
     - script: |
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform -chdir=$(System.DefaultWorkingDirectory) apply
+        terraform apply
