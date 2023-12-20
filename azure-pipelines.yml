@@ -29,8 +29,7 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
-        terraform init
+        terraform -chdir="./terraform" init
         
     - script: |
         terraform validate
@@ -53,13 +52,10 @@ stages:
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(System.DefaultWorkingDirectory) && ls
-        terraform init
+        terraform -chdir="./terraform" init
 
     - script: |
-        cd $(System.DefaultWorkingDirectory) && ls
-        terraform plan
+        terraform -chdir="./terraform" plan
 
     - script: |
-        cd $(System.DefaultWorkingDirectory) && ls
-        terraform apply
+        terraform -chdir="./terraform" apply
