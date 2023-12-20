@@ -41,24 +41,24 @@ resource "azurerm_subnet" "my_subnet" {
 }
 
 # Create an AKS cluster
-resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
-  name                = "myAKSCluster"
-  location            = "West Europe"
-  resource_group_name = "matthijs_sliggers-rg"
-  dns_prefix          = "myaksdns"
+#resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
+ # name                = "myAKSCluster"
+  #location            = "West Europe"
+  #resource_group_name = "matthijs_sliggers-rg"
+  #dns_prefix          = "myaksdns"
 
-  default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_DS2_v2"
-  }
+  #default_node_pool {
+    #name       = "default"
+    #node_count = 1
+    #vm_size    = "Standard_DS2_v2"
+  #}
 
-  service_principal {
-    client_id = "52cc5536-a316-466c-8bf4-3868efbe0811"
-    client_secret = "ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-"
-  }
+  #service_principal {
+    #client_id = "52cc5536-a316-466c-8bf4-3868efbe0811"
+    #client_secret = "ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-"
+  #}
 
-  network_profile {
-    network_plugin = "azure"  
-  }
-}
+  #network_profile {
+    #network_plugin = "azure"  
+  #}
+#}
