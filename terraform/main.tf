@@ -41,11 +41,11 @@ resource "azurerm_subnet" "my_subnet" {
 }
 
 # Create an AKS cluster
-# resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
-#  name                = "myAKSCluster"
-#  location            = "West Europe"
-#  resource_group_name = "matthijs_sliggers-rg"
-#  dns_prefix          = "myaksdns"
+resource "azurerm_kubernetes_cluster" "my_aks_cluster" {
+  name                = "myAKSCluster"
+  location            = "West Europe"
+  resource_group_name = "matthijs_sliggers-rg"
+  dns_prefix          = "myaksdns"
 
   default_node_pool {
     name       = "default"
@@ -61,4 +61,4 @@ resource "azurerm_subnet" "my_subnet" {
   network_profile {
     network_plugin = "azure"  
   }
-
+}
