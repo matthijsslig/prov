@@ -42,7 +42,7 @@ stages:
   - job: apply
     steps:
     - checkout: self
-    - path: string
+      path: string
     - task: TerraformInstaller@0
       displayName: tfinstall
       inputs:
