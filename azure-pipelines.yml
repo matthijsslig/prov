@@ -7,7 +7,7 @@ pool:
 variables:
   subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
   terraformPath: /usr/bin/bash --noprofile --norc /home/agent/_work/_temp/44115a1e-e440-4135-82d4-50fa476e8d66.sh
-  terraform_folder_name: /home/matthijssliggers/pro5/devoteam-traineeship-petclinic/terraform
+  terraform_folder_name: terraform
   
 stages:
 - stage: tfvalidate 
