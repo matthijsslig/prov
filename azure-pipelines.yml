@@ -58,4 +58,4 @@ stages:
         terraform -chdir="./terraform" plan
 
     - script: |
-        terraform -chdir="./terraform" apply
+        terraform -chdir="./terraform" apply -auto-approve
