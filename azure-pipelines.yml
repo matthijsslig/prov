@@ -6,23 +6,29 @@ pool:
 
 variables:
   subscriptionId: '41e50375-b926-4bc4-9045-348f359cf721'
-  terraformPath: '/home/agent/_work/1/s'
   
 stages:
 - stage: tfvalidate 
   jobs:
   - job: validate
     steps:
+
     - script: | 
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+    - task: TerraformInstaller@0
+      displayName: tfinstall
+      inputs:
+        terraformVersion: 'latest'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
 
     - script: |
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
-        cd $(System.DefaultWorkingDirectory) && ls
-        terraform init
-
+        cd $(System.DefaultWorkingDirectory)$(terraform_folder_name)
+        terraform -chdir=$(System.DefaultWorkingDirectory) init
+        
     - script: |
         terraform validate
 
@@ -32,15 +38,24 @@ stages:
   jobs:
   - job: apply
     steps:
+
+    - task: TerraformInstaller@0
+      displayName: tfinstall
+      inputs:
+        terraformVersion: 'latest'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(terraformPath)/'
+
     - script: |
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
-        terraform init
+        terraform -chdir=$(System.DefaultWorkingDirectory) init
 
     - script: |
-        terraform plan -out=tfplan -input=false -var-file=$(System.DefaultWorkingDirectory)/path/to/your/variables.tfvars
+        cd $(System.DefaultWorkingDirectory) && ls
+        terraform -chdir=$(System.DefaultWorkingDirectory) plan
 
     - script: |
-        terraform apply -input=false -auto-approve tfplan
+        cd $(System.DefaultWorkingDirectory) && ls
+        terraform -chdir=$(System.DefaultWorkingDirectory) apply
