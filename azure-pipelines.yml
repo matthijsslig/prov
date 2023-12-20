@@ -13,15 +13,8 @@ stages:
   jobs:
   - job: validate
     steps:
-
     - script: | 
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-    - task: TerraformInstaller@0
-      displayName: tfinstall
-      inputs:
-        terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
 
     - script: |
         az login --identity --allow-no-subscriptions
@@ -29,7 +22,7 @@ stages:
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
         terraform init
-        
+
     - script: |
         terraform validate
 
@@ -39,30 +32,15 @@ stages:
   jobs:
   - job: apply
     steps:
-
-    - task: TerraformInstaller@0
-      displayName: tfinstall
-      inputs:
-        terraformVersion: 'latest'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
-
     - script: |
         az login --identity --allow-no-subscriptions
         az account set --subscription $(subscriptionId)
         az account show
         cd $(System.DefaultWorkingDirectory) && ls
         terraform init
-    
-    - task: TerraformTaskV4@4
-      displayName: Terraform plan
-      inputs:
-        provider: 'azurerm'
-        command: plan
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
 
-    - task: TerraformTaskV4@4
-      displayName: Terraform apply
-      inputs:
-        provider: 'azurerm'
-        command: apply
-        workingDirectory: '$(System.DefaultWorkingDirectory)/home/matthijssliggers/pro5/devoteam-traineeship-petclinic/main.tf'
+    - script: |
+        terraform plan -out=tfplan -input=false -var-file=$(System.DefaultWorkingDirectory)/path/to/your/variables.tfvars
+
+    - script: |
+        terraform apply -input=false -auto-approve tfplan
