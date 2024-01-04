@@ -1,0 +1,146 @@
+# Configure the Azure provider
+terraform {
+  required_providers {
+    azapi = {
+      source = "azure/azapi"
+    }
+  }
+}
+
+provider "azapi" {
+}
+
+provider "azurerm" {
+  skip_provider_registration = true 
+  features {}
+
+  client_id     = "52cc5536-a316-466c-8bf4-3868efbe0811"
+  client_secret = "ENH8Q~oAYL06mTDNbXiMmFUeM9VQdhPOr3Rqjbk-"
+  
+}
+
+resource "random_pet" "rg_name" {
+  prefix = var.resource_group_name_prefix
+}
+
+resource "matthijs_sliggers-rg" "testvm" {
+  location = "West Europe"
+  name     = "matthijs_sliggers-rg"
+}
+
+# Create virtual network
+resource "azurerm_virtual_network" "my_terraform_network" {
+  name                = "myVnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = "West Europe"
+  resource_group_name = "matthijs_sliggers-rg"
+}
+
+# Create subnet
+resource "azurerm_subnet" "my_terraform_subnet" {
+  name                 = "mySubnet"
+  resource_group_name  = "matthijs_sliggers-rg"
+  virtual_network_name = "myVnet"
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+# Create public IPs
+resource "azurerm_public_ip" "my_terraform_public_ip" {
+  name                = "myPublicIP"
+  location            = "West Europe"
+  resource_group_name = "matthijs_sliggers-rg"
+  allocation_method   = "Dynamic"
+}
+
+# Create Network Security Group and rule
+resource "azurerm_network_security_group" "my_terraform_nsg" {
+  name                = "myNetworkSecurityGroup"
+  location            = "West Europe"
+  resource_group_name = "matthijs_sliggers-rg"
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Create network interface
+resource "azurerm_network_interface" "my_terraform_nic" {
+  name                = "myNIC"
+  location            = "West Europe"
+  resource_group_name = "matthijs_sliggers-rg"
+
+  ip_configuration {
+    name                          = "my_nic_configuration"
+    subnet_id                     = azurerm_subnet.my_terraform_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
+  }
+}
+
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "example" {
+  network_interface_id      = azurerm_network_interface.my_terraform_nic.id
+  network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
+}
+
+# Generate random text for a unique storage account name
+resource "random_id" "random_id" {
+  keepers = {
+    # Generate a new ID only when a new resource group is defined
+    resource_group = "matthijs_sliggers-rg.rg.id"
+  }
+
+  byte_length = 8
+}
+
+# Create storage account for boot diagnostics
+resource "azurerm_storage_account" "my_storage_account" {
+  name                     = "diag${random_id.random_id.hex}"
+  location                 = "West Europe"
+  resource_group_name      = "matthijs_sliggers-rg"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+# Create virtual machine
+resource "azurerm_linux_virtual_machine" "vmtest" {
+  name                  = "vmtest"
+  location              = "West Europe"
+  resource_group_name   = "matthijs_sliggers-rg"
+  network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
+  size                  = "Standard_DS1_v2"
+
+  os_disk {
+    name                 = "myOsDisk"
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts-gen2"
+    version   = "latest"
+  }
+
+  computer_name  = "hostname"
+  admin_username = "azureroot"
+
+  admin_ssh_key {
+    username   = "azureroot"
+    public_key = file("vmtest.pub")
+  }
+
+  boot_diagnostics {
+    storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
+  }
+}
+
