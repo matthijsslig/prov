@@ -13,7 +13,7 @@ provider "azurerm" {
   features {}
   }
 
-  resources "azurerm_resource_group" "terrarg" {
+  resource "azurerm_resource_group" "terrarg" {
     name = "matthijs_sliggers-rg"
     location = "West Europe"
   }
