@@ -10,3 +10,8 @@ bin/
 
 # Maven
 target/
+
+.terraform
+.terraform/
+vmtest2/.terraform
+vmtest2/.terraform/
